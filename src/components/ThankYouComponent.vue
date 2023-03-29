@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Thank You!</h1>
-    <p>Thank you for visiting our website.</p>
+    <p>daweqd you foraaaaaaaaaaaaa visiting our website.</p>
   </div>
 </template>
 
