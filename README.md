@@ -1,4 +1,42 @@
+
+
 # iphonephotography
+
+## Usage
+```HTML
+<ThankYouComponent :text="hello"></ThankYouComponent>
+```
+```javascript
+import { ThankYouComponent } from 'iphonephotography'
+
+export default {
+  components: {
+    ThankYouComponent
+  }
+}
+```
+## Installation
+```
+npm install iphonephotography
+```
+
+## Usage
+```HTML
+<WelcomeComponent :text="hello"></WelcomeComponent>
+```
+```javascript
+import { WelcomeComponent } from 'iphonephotography'
+
+export default {
+  components: {
+    WelcomeComponent
+  }
+}
+```
+## Installation
+```
+npm install iphonephotography
+```
 
 ## Project setup
 ```
