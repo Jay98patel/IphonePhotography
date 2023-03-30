@@ -31,10 +31,16 @@
                     <input
                       type="email"
                       class="text-light form-control"
+                      :class="{
+                        'is-invalid':
+                          !isValidEmailAddress && emailAddress !== '',
+                      }"
+                      :placeholder="placeholderText"
                       id="emailAddress"
-                      placeholder="Enter your Email Address"
+                      v-model="emailAddress"
+                      required
                     />
-                    <label for="emailAddress">Enter your Email Address</label>
+                    <label for="emailAddress">{{ placeholderText }}</label>
                   </div>
                   <div class="form--action">
                     <button @click="goToThankYou" class="form--action-btn">
@@ -116,6 +122,7 @@ export default defineComponent({
   },
   data() {
     return {
+      emailAddress: "",
       autoplayOptions: {
         delay: 8000,
         disableOnInteraction: false,
@@ -130,12 +137,25 @@ export default defineComponent({
     this.smallCarouselSlide = constants.smallCarousel;
   },
   computed: {
+    isValidEmailAddress() {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(this.emailAddress);
+    },
     smallFilteredPhotos() {
       const prevIndex =
         this.slideIndex === 0
           ? this.smallCarouselSlide.length - 1
           : this.slideIndex - 1;
       return [this.smallCarouselSlide[prevIndex]];
+    },
+    placeholderText() {
+      if (this.emailAddress === "") {
+        return "Enter your Email Address";
+      } else if (!this.isValidEmailAddress) {
+        return "Please Enter a Valid Email Address";
+      } else {
+        return "Email Address";
+      }
     },
   },
   methods: {
@@ -144,7 +164,9 @@ export default defineComponent({
       document.querySelector(".hero--slider-thumb").classList.add("fadeIn");
     },
     goToThankYou() {
-      this.$router.push("/thankyou");
+      if (this.isValidEmailAddress) {
+        this.$router.push("/thankyou");
+      }
     },
   },
 });
@@ -199,6 +221,7 @@ body {
       padding-right: 16px;
     }
   }
+  .form-control:focus,
   .form-control {
     box-shadow: none;
     color: #eeecec;
@@ -211,6 +234,17 @@ body {
     background-position: right 16px center;
     background-size: 24px;
   }
+}
+
+.is-invalid {
+  border-color: #f00;
+}
+
+.form-control::placeholder {
+  color: #ffffff;
+}
+.form-control.is-invalid::placeholder {
+  color: #ff0000;
 }
 
 .form--action {
