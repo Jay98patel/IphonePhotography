@@ -47,55 +47,64 @@
                 class="hero--slider-bg img-fluid"
                 src="@/assets/images/iPhone-mokup.png"
               />
-              <VueSlickCarousel
+              <swiper
                 class="slider position-absolute"
-                v-bind="carouselSettings"
-                @afterChange="onAfterChange"
+                :effect="'fade'"
+                :rewind="true"
+                :autoplay="autoplayOptions"
+                :slides-per-view="1"
+                :navigation="{ nextEl: '.hero--slider-next' }"
+                :pagination="{
+                  clickable: true,
+                }"
+                :modules="modules"
+                @activeIndexChange="onAfterChange"
               >
-                <div class="hero--slider-item">
+                <swiper-slide class="hero--slider-item">
                   <img
                     class="hero--slider-img"
                     src="@/assets/images/carousel-photo-01.jpg"
                   />
-                </div>
-                <div class="hero--slider-item">
+                </swiper-slide>
+                <swiper-slide class="hero--slider-item">
                   <img
                     class="hero--slider-img"
                     src="@/assets/images/carousel-photo-02.jpg"
                   />
-                </div>
-                <div class="hero--slider-item">
+                </swiper-slide>
+                <swiper-slide class="hero--slider-item">
                   <img
                     class="hero--slider-img"
                     src="@/assets/images/carousel-photo-03.jpg"
                   />
-                </div>
-                <div class="hero--slider-item">
+                </swiper-slide>
+                <swiper-slide class="hero--slider-item">
                   <img
                     class="hero--slider-img"
                     src="@/assets/images/carousel-photo-04.jpg"
                   />
-                </div>
-              </VueSlickCarousel>
+                </swiper-slide>
+              </swiper>
+              <div class="hero--slider-next"></div>
               <div class="hero--slider-thumbs">
                 <img
                   src="@/assets/images/small-carousel-photo-04.jpg"
-                  v-if="slideIndex == 1"
+                  v-if="slideIndex == 0"
                   class="hero--slider-thumb"
                 />
                 <img
                   src="@/assets/images/small-carousel-photo-01.jpg"
-                  v-if="slideIndex == 2"
+                  v-if="slideIndex == 1"
                   class="hero--slider-thumb"
                 />
                 <img
                   src="@/assets/images/small-carousel-photo-02.jpg"
-                  v-if="slideIndex == 3"
+                  v-if="slideIndex == 2"
                   class="hero--slider-thumb"
                 />
                 <img
                   src="@/assets/images/small-carousel-photo-03.jpg"
-                  v-if="slideIndex == 4"
+                  v-if="slideIndex == 3"
                   class="hero--slider-thumb"
                 />
               </div>
@@ -109,36 +118,39 @@
 
 <script>
 import { defineComponent } from "vue";
-import { VueSlickCarousel } from "vue-slick-carousel";
-import 'vue-slick-carousel/dist/vue-slick-carousel.css';
-// import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+import { Swiper, SwiperSlide } from "swiper/vue";
+
+import "swiper/css";
+import "swiper/css/autoplay";
+import "swiper/css/effect-fade";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+
+import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
 
 export default defineComponent({
   name: "WelcomeComponent",
   components: {
-    VueSlickCarousel,
+    Swiper,
+    SwiperSlide,
+  },
+  setup() {
+    return {
+      modules: [Autoplay, EffectFade, Navigation, Pagination],
+    };
   },
   data() {
     return {
-      carouselSettings: {
-        arrows: true,
-        dots: true,
-        fade: true,
-        autoplay: true,
-        autoplaySpeed: 8000,
-        infinite: true,
-        swipeToSlide: false,
-        slidesToShow: 1,
-        pauseOnHover: false,
-        draggable: false,
-        prevArrow: false,
+      autoplayOptions: {
+        delay: 8000,
+        disableOnInteraction: false,
       },
-      slideIndex: 1,
+      slideIndex: 0,
     };
   },
   methods: {
-    onAfterChange(slideIndex) {
-      this.slideIndex = slideIndex + 1;
+    onAfterChange(swiper) {
+      this.slideIndex = swiper.activeIndex;
       document.querySelector(".hero--slider-thumb").classList.add("fadeIn");
     },
   },
@@ -269,64 +281,65 @@ body {
   margin: auto;
   width: 306px;
   height: 420px;
-  .slick-prev {
-    display: none !important;
-  }
-  .slick-next {
-    position: absolute;
-    width: 48px;
-    height: 48px;
-    left: 0;
-    right: 0;
-    bottom: -90px;
+  overflow: unset;
+}
+
+.swiper-pagination {
+  position: absolute;
+  bottom: -215px !important;
+  left: 0 !important;
+  right: 0 !important;
+  padding: 0;
+  text-align: center;
+  z-index: 9;
+  .swiper-pagination-bullet {
+    position: relative;
+    display: inline-flex;
+    vertical-align: middle;
+    height: 1px;
+    width: 55px;
     border: none;
-    margin: 0 auto;
+    opacity: 1;
     overflow: hidden;
-    border-radius: 100%;
+    pointer-events: none;
     text-indent: -9999px;
-    background-color: transparent;
-  }
-  .slick-dots {
-    position: absolute;
-    bottom: -215px;
-    left: 0;
-    right: 0;
-    padding: 0;
-    text-align: center;
-    li {
-      position: relative;
-      display: inline-flex;
-      vertical-align: middle;
-      height: 1px;
-      width: 55px;
-      border: none;
-      overflow: hidden;
-      pointer-events: none;
-      text-indent: -9999px;
-      background-color: #3a3a3a;
+    background: #3a3a3a;
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      background-color: #eeecec;
+    }
+    & + .swiper-pagination-bullet {
+      margin-left: 8px;
+    }
+    &.swiper-pagination-bullet-active {
       &:before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        width: 0;
-        background-color: #eeecec;
-      }
-      & + li {
-        margin-left: 8px;
-      }
-      button {
-        display: none;
-      }
-      &.slick-active {
-        &:before {
-          animation: 9s linear lineAnimation forwards;
-        }
+        animation: 8.5s ease lineAnimation forwards;
       }
     }
   }
+}
+
+.hero--slider-next {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  left: 0;
+  right: 0;
+  bottom: 71px;
+  z-index: 99;
+  border: none;
+  margin: 0 auto;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 100%;
+  text-indent: -9999px;
+  background-color: transparent;
 }
 
 .hero--slider-thumbs {
