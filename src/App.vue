@@ -10,8 +10,3 @@ export default {
 };
 </script>
 
-<style lang="scss">
-#app {
-  color: black;
-}
-</style>

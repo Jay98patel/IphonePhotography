@@ -1,10 +1,36 @@
-// Custom.scss
-// Option B: Include parts of Bootstrap
-
+// Google Fonts: opens sans
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap");
 // 1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
 @import "../node_modules/bootstrap/scss/functions";
 
 // 2. Include any default variable overrides here
+$body-color: #eeecec;
+$body-bg: #0f0f0f;
+$danger: #d41c3d;
+$success: #2b5341;
+$input-border-color: #3a3a3a;
+$input-bg: #171715;
+
+$font-family-base: "Open Sans", sans-serif;
+$border-radius: 6px;
+$container-padding-x: 2rem;
+
+$form-floating-padding-y: 17px;
+$form-floating-padding-x: 1rem;
+$form-floating-height: 62px;
+$form-floating-label-opacity: 1;
+$enable-validation-icons: false;
+
+$btn-font-weight: 600;
+$btn-padding-x: 2.25rem;
+$btn-padding-y: 1rem;
+$btn-border-width: 0;
+
+$badge-font-weight: 600;
+$badge-font-size: 12px;
+$badge-padding-x: 16px;
+$badge-padding-y: 8px;
+$badge-border-radius: 50rem;
 
 // 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
 @import "../node_modules/bootstrap/scss/variables";
@@ -27,10 +53,29 @@
 
 // 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
 @import "../node_modules/bootstrap/scss/utilities/api";
+@import "../node_modules/bootstrap/scss/transitions";
 @import "../node_modules/bootstrap/scss/buttons";
 @import "../node_modules/bootstrap/scss/forms";
-@import "../node_modules/bootstrap/scss/transitions";
+@import "../node_modules/bootstrap/scss/badge";
 
 // 8. Add additional custom code here
-// @import '../node_modules/vue-slick-carousel/dist/vue-slick-carousel.css';
-// @import '../node_modules/vue-slick-carousel/dist/vue-slick-carousel-theme.css';
+.form-floating {
+  .form-control {
+    &:focus,
+    &:not(:placeholder-shown) {
+      & ~ label {
+        color: #3a3a3a;
+      }
+    }
+    &.is-invalid {
+      & + label {
+        color: $danger;
+      }
+    }
+  }
+}
+
+.badge {
+  line-height: 12px;
+  letter-spacing: 2px;
+}
