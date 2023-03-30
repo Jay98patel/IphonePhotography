@@ -1,5 +1,5 @@
-<template>
-  <div>
+<template class="h-100">
+  <div class="h-100">
     <router-view></router-view>
   </div>
 </template>
@@ -18,6 +18,12 @@ export default {
 </script>
 
 <style lang="scss">
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
 #app {
   color: black;
 }
