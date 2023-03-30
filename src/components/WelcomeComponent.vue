@@ -60,51 +60,23 @@
                 :modules="modules"
                 @activeIndexChange="onAfterChange"
               >
-                <swiper-slide class="hero--slider-item">
+                <swiper-slide
+                  v-for="(photo, index) in slides"
+                  :key="index"
+                  class="hero--slider-item"
+                >
                   <img
                     class="hero--slider-img"
-                    src="@/assets/images/carousel-photo-01.jpg"
-                  />
-                </swiper-slide>
-                <swiper-slide class="hero--slider-item">
-                  <img
-                    class="hero--slider-img"
-                    src="@/assets/images/carousel-photo-02.jpg"
-                  />
-                </swiper-slide>
-                <swiper-slide class="hero--slider-item">
-                  <img
-                    class="hero--slider-img"
-                    src="@/assets/images/carousel-photo-03.jpg"
-                  />
-                </swiper-slide>
-                <swiper-slide class="hero--slider-item">
-                  <img
-                    class="hero--slider-img"
-                    src="@/assets/images/carousel-photo-04.jpg"
+                    :src="require(`@/assets/images/${photo}`)"
                   />
                 </swiper-slide>
               </swiper>
               <div class="hero--slider-next"></div>
               <div class="hero--slider-thumbs">
                 <img
-                  src="@/assets/images/small-carousel-photo-04.jpg"
-                  v-if="slideIndex == 0"
-                  class="hero--slider-thumb"
-                />
-                <img
-                  src="@/assets/images/small-carousel-photo-01.jpg"
-                  v-if="slideIndex == 1"
-                  class="hero--slider-thumb"
-                />
-                <img
-                  src="@/assets/images/small-carousel-photo-02.jpg"
-                  v-if="slideIndex == 2"
-                  class="hero--slider-thumb"
-                />
-                <img
-                  src="@/assets/images/small-carousel-photo-03.jpg"
-                  v-if="slideIndex == 3"
+                  v-for="(photo, index) in smallFilteredPhotos"
+                  :key="index"
+                  :src="require(`@/assets/images/${photo}`)"
                   class="hero--slider-thumb"
                 />
               </div>
@@ -127,6 +99,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 
 import { Autoplay, EffectFade, Navigation, Pagination } from "swiper";
+import { constants } from "@/constants/constant";
 
 export default defineComponent({
   name: "WelcomeComponent",
@@ -146,7 +119,22 @@ export default defineComponent({
         disableOnInteraction: false,
       },
       slideIndex: 0,
+      slides: [],
+      smallCarouselSlide: [],
     };
+  },
+  created() {
+    this.slides = constants.slides;
+    this.smallCarouselSlide = constants.smallCarousel;
+  },
+  computed: {
+    smallFilteredPhotos() {
+      const prevIndex =
+        this.slideIndex === 0
+          ? this.smallCarouselSlide.length - 1
+          : this.slideIndex - 1;
+      return [this.smallCarouselSlide[prevIndex]];
+    },
   },
   methods: {
     onAfterChange(swiper) {
