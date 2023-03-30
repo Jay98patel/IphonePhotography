@@ -20,9 +20,9 @@
           >
             <div class="hero--info">
               <span class="hero--info-tag">New Course</span>
-              <h1 class="hero--info-title">iPhone Photo Academy</h1>
+              <h1 class="hero--info-title text-light">iPhone Photo Academy</h1>
               <div class="hero--newsletter">
-                <p class="hero--newsletter-desc">
+                <p class="hero--newsletter-desc text-light">
                   Sign up now to get notified <br />
                   when this course is available!
                 </p>
@@ -30,14 +30,16 @@
                   <div class="form-floating">
                     <input
                       type="email"
-                      class="form-control"
+                      class="text-light form-control"
                       id="emailAddress"
                       placeholder="Enter your Email Address"
                     />
                     <label for="emailAddress">Enter your Email Address</label>
                   </div>
                   <div class="form--action">
-                    <button class="form--action-btn">Please Notify Me</button>
+                    <button @click="goToThankYou" class="form--action-btn">
+                      Please Notify Me
+                    </button>
                   </div>
                 </form>
               </div>
@@ -140,6 +142,9 @@ export default defineComponent({
     onAfterChange(swiper) {
       this.slideIndex = swiper.activeIndex;
       document.querySelector(".hero--slider-thumb").classList.add("fadeIn");
+    },
+    goToThankYou() {
+      this.$router.push("/thankyou");
     },
   },
 });
