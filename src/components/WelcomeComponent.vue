@@ -1,30 +1,369 @@
 <template>
-  <div>
-    <h1>Welcome Page</h1>
-    <p>Welcome Page visiting our website.</p>
+  <div class="hero-wrapper">
+    <header class="header">
+      <div class="container">
+        <a href="javascript:void(0)" class="site--logo">
+          <img
+            src="@/assets/images/ips-logo.svg"
+            alt="iPhone Photography School"
+            title="iPhone Photography School"
+            class="site--logo-img"
+          />
+        </a>
+      </div>
+    </header>
+    <main class="main">
+      <section class="hero">
+        <div class="container">
+          <div
+            class="hero--wrapper d-flex align-items-center justify-content-between"
+          >
+            <div class="hero--info">
+              <span class="hero--info-tag">New Course</span>
+              <h1 class="hero--info-title">iPhone Photo Academy</h1>
+              <div class="hero--newsletter">
+                <p class="hero--newsletter-desc">
+                  Sign up now to get notified <br />
+                  when this course is available!
+                </p>
+                <form>
+                  <div class="form-floating">
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="emailAddress"
+                      placeholder="Enter your Email Address"
+                    />
+                    <label for="emailAddress">Enter your Email Address</label>
+                  </div>
+                  <div class="form--action">
+                    <button class="form--action-btn">Please Notify Me</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="hero--slider position-relative">
+              <img
+                class="hero--slider-bg img-fluid"
+                src="@/assets/images/iPhone-mokup.png"
+              />
+              <VueSlickCarousel
+                class="slider position-absolute"
+                v-bind="carouselSettings"
+                @afterChange="onAfterChange"
+              >
+                <div class="hero--slider-item">
+                  <img
+                    class="hero--slider-img"
+                    src="@/assets/images/carousel-photo-01.jpg"
+                  />
+                </div>
+                <div class="hero--slider-item">
+                  <img
+                    class="hero--slider-img"
+                    src="@/assets/images/carousel-photo-02.jpg"
+                  />
+                </div>
+                <div class="hero--slider-item">
+                  <img
+                    class="hero--slider-img"
+                    src="@/assets/images/carousel-photo-03.jpg"
+                  />
+                </div>
+                <div class="hero--slider-item">
+                  <img
+                    class="hero--slider-img"
+                    src="@/assets/images/carousel-photo-04.jpg"
+                  />
+                </div>
+              </VueSlickCarousel>
+              <div class="hero--slider-thumbs">
+                <img
+                  src="@/assets/images/small-carousel-photo-04.jpg"
+                  v-if="slideIndex == 1"
+                  class="hero--slider-thumb"
+                />
+                <img
+                  src="@/assets/images/small-carousel-photo-01.jpg"
+                  v-if="slideIndex == 2"
+                  class="hero--slider-thumb"
+                />
+                <img
+                  src="@/assets/images/small-carousel-photo-02.jpg"
+                  v-if="slideIndex == 3"
+                  class="hero--slider-thumb"
+                />
+                <img
+                  src="@/assets/images/small-carousel-photo-03.jpg"
+                  v-if="slideIndex == 4"
+                  class="hero--slider-thumb"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 </template>
 
 <script>
-export default {
+import { defineComponent } from "vue";
+import { VueSlickCarousel } from "vue-slick-carousel";
+import 'vue-slick-carousel/dist/vue-slick-carousel.css';
+// import 'vue-slick-carousel/dist/vue-slick-carousel-theme.css'
+
+export default defineComponent({
   name: "WelcomeComponent",
-};
+  components: {
+    VueSlickCarousel,
+  },
+  data() {
+    return {
+      carouselSettings: {
+        arrows: true,
+        dots: true,
+        fade: true,
+        autoplay: true,
+        autoplaySpeed: 8000,
+        infinite: true,
+        swipeToSlide: false,
+        slidesToShow: 1,
+        pauseOnHover: false,
+        draggable: false,
+        prevArrow: false,
+      },
+      slideIndex: 1,
+    };
+  },
+  methods: {
+    onAfterChange(slideIndex) {
+      this.slideIndex = slideIndex + 1;
+      document.querySelector(".hero--slider-thumb").classList.add("fadeIn");
+    },
+  },
+});
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
+<style lang="scss">
+body {
+  font-family: "Open Sans", sans-serif;
+  background: #0f0f0f;
+  color: #eeecec;
 }
-ul {
-  list-style-type: none;
-  padding: 0;
+.header {
+  padding: 3.934rem 0 1.747rem 0;
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
+.hero--info {
+  flex: 0 0 450px;
+  width: 450px;
+  &-tag {
+    font-size: 12px;
+    line-height: 12px;
+    letter-spacing: 2px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 32px;
+    text-transform: uppercase;
+    background-color: #2b5341;
+  }
+  &-title {
+    font-family: "Montserrat", sans-serif;
+    font-weight: 400;
+    font-size: 63.008px;
+    line-height: 63.008px;
+    margin: 1rem 0 2rem 0;
+  }
 }
-a {
-  color: #42b983;
+.hero--newsletter {
+  &-desc {
+    font-size: 22px;
+    line-height: 30px;
+  }
+  .form-floating {
+    > .form-control {
+      &:focus {
+        & ~ label {
+          opacity: 1;
+          color: #3a3a3a;
+        }
+      }
+    }
+    > label {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+  }
+  .form-control {
+    box-shadow: none;
+    color: #eeecec;
+    padding-left: 16px;
+    padding-right: 16px;
+    border-color: #3a3a3a;
+    background-color: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z' stroke='%233A3A3A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M22 6L12 13L2 6' stroke='%233A3A3A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 24px;
+  }
+}
+
+.form--action {
+  margin-top: 1rem;
+}
+
+.form--action-btn {
+  position: relative;
+  border: none;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  padding: 1rem 2.25rem;
+  z-index: 9;
+  color: #eeecec;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  z-index: 2;
+  background: linear-gradient(135deg, #370c14 0%, #280c23 100%),
+    linear-gradient(135deg, #d41c3d 0%, #861b83 100%);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  &:after {
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0;
+    border-radius: 6px;
+    background: linear-gradient(135deg, #d41c3d 0%, #861b83 100%),
+      linear-gradient(135deg, #62051c 0%, #440c3a 100%);
+    transition: 0.25s ease;
+  }
+  &:hover {
+    &:after {
+      opacity: 0.3;
+    }
+  }
+}
+
+.hero--slider {
+  width: 336px;
+  flex: 0 0 336px;
+  &-img {
+    margin: 0 auto;
+    width: 306px;
+    height: 420px;
+    pointer-events: none;
+    object-fit: cover;
+  }
+}
+
+.slider {
+  top: -45px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 306px;
+  height: 420px;
+  .slick-prev {
+    display: none !important;
+  }
+  .slick-next {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    left: 0;
+    right: 0;
+    bottom: -90px;
+    border: none;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 100%;
+    text-indent: -9999px;
+    background-color: transparent;
+  }
+  .slick-dots {
+    position: absolute;
+    bottom: -215px;
+    left: 0;
+    right: 0;
+    padding: 0;
+    text-align: center;
+    li {
+      position: relative;
+      display: inline-flex;
+      vertical-align: middle;
+      height: 1px;
+      width: 55px;
+      border: none;
+      overflow: hidden;
+      pointer-events: none;
+      text-indent: -9999px;
+      background-color: #3a3a3a;
+      &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 0;
+        background-color: #eeecec;
+      }
+      & + li {
+        margin-left: 8px;
+      }
+      button {
+        display: none;
+      }
+      &.slick-active {
+        &:before {
+          animation: 9s linear lineAnimation forwards;
+        }
+      }
+    }
+  }
+}
+
+.hero--slider-thumbs {
+  position: absolute;
+  left: 27px;
+  width: 41px;
+  height: 41px;
+  bottom: 74px;
+}
+
+.hero--slider-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  &.fadeIn {
+    animation: 0.25s ease fadeIn;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes lineAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
 }
 </style>

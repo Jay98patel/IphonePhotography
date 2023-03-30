@@ -4,7 +4,7 @@ import ThankYouComponent from './components/ThankYouComponent.vue'
 
 const routes = [
   { path: '/', component: WelcomeComponent },
-  { path: '/thankyou', component: ThankYouComponent }
+  { path: '/thankyou', component: ThankYouComponent },
 ]
 
 const router = createRouter({
