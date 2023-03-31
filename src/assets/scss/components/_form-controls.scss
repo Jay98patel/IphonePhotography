@@ -1,0 +1,15 @@
+.form-floating {
+  .form-control {
+    &:focus,
+    &:not(:placeholder-shown) {
+      & ~ label {
+        color: #3a3a3a;
+      }
+    }
+    &.is-invalid {
+      & + label {
+        color: $danger;
+      }
+    }
+  }
+}
